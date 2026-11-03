@@ -97,8 +97,8 @@ export default function Home() {
   if (!session) {
     return (
       <main style={styles.page}>
-        <div style={styles.card}>
-          <div style={styles.header}><div style={styles.brand}><div style={styles.logo}>S</div><div style={styles.title}>SplitSmart</div></div></div>
+        <div className="mobile-card" style={styles.card}>
+          <div style={styles.header}><div style={styles.brand}><div style={styles.logo}>💸</div><div style={styles.title}>SplitSmart</div></div></div>
           <p style={{ color: '#6b7280', fontSize: 14, marginBottom: 16 }}>Sign in to see your groups on any device.</p>
           <input style={styles.input2} type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
           <input style={styles.input2} type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password (6+ characters)" />
@@ -106,7 +106,7 @@ export default function Home() {
             <button style={styles.authBtn} onClick={signUp}>Sign up</button>
             <button style={styles.authBtnAlt} onClick={signIn}>Sign in</button>
           </div>
-          {authMsg && <div style={{ marginTop: 12, fontSize: 13, color: '#1C5FD4' }}>{authMsg}</div>}
+          {authMsg && <div style={{ marginTop: 12, fontSize: 13, color: '#2563EB' }}>{authMsg}</div>}
         </div>
       </main>
     );
@@ -114,13 +114,13 @@ export default function Home() {
 
   return (
     <main style={styles.page}>
-      <div style={styles.card}>
+      <div className="mobile-card" style={styles.card}>
         <div style={styles.header}>
-          <div style={styles.brand}><div style={styles.logo}>S</div><div style={styles.title}>SplitSmart</div></div>
+          <div style={styles.brand}><div style={styles.logo}>💸</div><div style={styles.title}>SplitSmart</div></div>
           <button style={styles.signout} onClick={signOut}>Sign out</button>
         </div>
 
-        <div style={styles.groupBar}>
+        <div className="mobile-groupbar" style={styles.groupBar}>
           <select style={styles.select} value={groupId} onChange={(e) => setGroupId(e.target.value)}>
             {groups.length === 0 && <option value="">No groups yet</option>}
             {groups.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
@@ -132,12 +132,18 @@ export default function Home() {
 
         {groupId ? (
           <>
-            <div style={styles.addRow}>
+            <div className="mobile-add-row" style={styles.addRow}>
               <input style={styles.input} value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && addExpense()} placeholder="Add an expense…" />
               <button style={styles.addBtn} onClick={addExpense}>+</button>
             </div>
-            <div style={styles.list}>
-              {expenses.length === 0 && <div style={styles.empty}>No expenses in this group yet.</div>}
+            <div className="mobile-expense-list" style={styles.list}>
+              {expenses.length === 0 && (
+                <div style={styles.expenseEmpty}>
+                  <div style={styles.expenseEmptyIcon}>🧾</div>
+                  <div style={styles.expenseEmptyTitle}>No expenses yet!</div>
+                  <div style={styles.expenseEmptyText}>Add your first expense to start splitting.</div>
+                </div>
+              )}
               {expenses.map((e) => (
                 <div key={e.id} style={styles.item}>
                   <div style={styles.itemEmoji}>{e.emoji || '🧾'}</div>
@@ -180,6 +186,10 @@ const styles = {
   addBtn: { flex: 'none', width: 48, borderRadius: 14, border: 'none', color: '#fff', fontSize: 24, fontWeight: 700, background: 'linear-gradient(135deg, var(--blue), var(--cyan))', cursor: 'pointer' },
   list: { display: 'flex', flexDirection: 'column', gap: 10, minHeight: 60 },
   empty: { color: 'var(--muted)', fontSize: 14, textAlign: 'center', padding: '24px 0' },
+  expenseEmpty: { display: 'flex', flexDirection: 'column', alignItems: 'center', color: 'var(--muted)', textAlign: 'center', padding: '28px 16px', border: '1px solid var(--line)', borderRadius: 16, background: '#f7f9fc' },
+  expenseEmptyIcon: { width: 44, height: 44, borderRadius: 14, display: 'grid', placeItems: 'center', marginBottom: 10, background: '#fff', border: '1px solid var(--line)', fontSize: 22 },
+  expenseEmptyTitle: { color: 'var(--ink)', fontSize: 16, fontWeight: 800 },
+  expenseEmptyText: { marginTop: 4, fontSize: 13.5 },
   item: { display: 'flex', alignItems: 'center', gap: 12, background: '#f7f9fc', border: '1px solid var(--line)', borderRadius: 16, padding: '12px 14px' },
   itemEmoji: { width: 38, height: 38, borderRadius: 11, display: 'grid', placeItems: 'center', background: '#fff', border: '1px solid var(--line)', fontSize: 19, flex: 'none' },
   itemMain: { flex: 1, minWidth: 0 },
